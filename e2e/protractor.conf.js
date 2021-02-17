@@ -8,15 +8,26 @@ const { SpecReporter } = require('jasmine-spec-reporter');
  * @type { import("protractor").Config }
  */
 exports.config = {
-  allScriptsTimeout: 11000,
+  allScriptsTimeout: 10000,
   specs: [
     './src/**/*.e2e-spec.ts'
   ],
+  SELENIUM_PROMISE_MANAGER: false,
+  restartBrowserBetweenTests: false,
   capabilities: {
-    browserName: 'chrome'
+    browserName: 'chrome',
+    maxInstances: 1,
+    chromeOptions: {
+      args: [
+          //"--headless",
+          "--disable-gpu",
+          "--remote-debugging-port=9227",
+          "--window-size=1920,1080"
+      ]
+    },
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://localhost:4201/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
