@@ -20,7 +20,7 @@ describe('Smoke testing', () => {
     await homePage.isPageVisible();
   });
 
-  xit('Should navigate between pages', async () => {
+  it('Should navigate between pages', async () => {
     // Navigate to Favorites page
     await navigationBar.clickFavoritesButton();
     // Handle alert with invalid password
@@ -44,7 +44,7 @@ describe('Smoke testing', () => {
     expect (await homePage.isPageVisible()).toBeTrue;
   });
 
-  xit('Should search using Search By Query functionality', async () => {
+  it('Should search using Search By Query functionality', async () => {
     //Insert first word into Search By Query input
     await homePage.fillSearchByQueryInput(dataHelper._searchibleWordFirst);
     //Check valid results are displayed and call to action text is missing
@@ -64,7 +64,7 @@ describe('Smoke testing', () => {
     await homePage.ctaTextIsVisible();
   });
 
-  xit('Should search with addition Language filter functionality', async () => {
+  it('Should search with addition Language filter functionality', async () => {
     //Insert first word into Search By Query input
     await homePage.fillSearchByQueryInput(dataHelper._searchibleWordThird);
     //Check results are displayed and call to action text is missing
@@ -84,10 +84,10 @@ describe('Smoke testing', () => {
     await homePage.resultsAreDisplayed();
     await homePage.ctaTextIsNotVisible();
     //Press Add To Favorites button of the first searched item
-    await homePage.addToFavoritesButtonIsDispalyed(dataHelper._indexOfFirstButton);
+    await homePage.addToFavoritesButtonIsDispalyedInItem(dataHelper._indexOfFirstButton);
     await homePage.clickAddToFavoritesButtonOfItem(dataHelper._indexOfFirstButton);
-    await homePage.addToFavoritesButtonIsNotDispalyed(dataHelper._indexOfFirstButton);
-    await homePage.removeFromFavoritesButtonIsDispalyed(dataHelper._indexOfFirstButton);
+    await homePage.addToFavoritesButtonIsNotDispalyedInItem(dataHelper._indexOfFirstButton);
+    await homePage.removeFromFavoritesButtonIsDispalyedInItem(dataHelper._indexOfFirstButton);
     // Get title of the first searched item
     let itemTitleOnHomePageBefore: string = await homePage.getTitleOfSearchedItem(dataHelper._indexOfFirstButton);
     // Navigate to Favorites page
@@ -105,16 +105,16 @@ describe('Smoke testing', () => {
     let itemTitleOnFavoritesPage: string = await favoritesPage.getTitleOfFavoriteItem(dataHelper._indexOfFirstItem);
     expect(itemTitleOnFavoritesPage).toEqual(itemTitleOnHomePageBefore);
     // Check favorite item has Remove From Favorites button
-    await favoritesPage.removeFromFavoritesButtonIsDispalyed(dataHelper._indexOfFirstButton);
+     await favoritesPage.removeFromFavoritesButtonIsDispalyedInItem(dataHelper._indexOfFirstButton);
     // Press Remove From Favorites button
-    await favoritesPage.clickRemoveFromFavoritesButtonOfItem(dataHelper._indexOfFirstButton);
+     await favoritesPage.clickRemoveFromFavoritesButtonOfItem(dataHelper._indexOfFirstButton);
     // Check Favorites page does not contain any Favorites item
     await favoritesPage.favoritesItemsAreNotDisplayed();
     // Navigate back to the Home page
     await navigationBar.clickHomeButton();
     // Check item which was added to favorites previously
-    await homePage.removeFromFavoritesButtonIsNotDispalyed(dataHelper._indexOfFirstButton);
-    await homePage.addToFavoritesButtonIsDispalyed(dataHelper._indexOfFirstButton);
+    await homePage.removeFromFavoritesButtonIsNotDispalyedInItem(dataHelper._indexOfFirstButton);
+    await homePage.addToFavoritesButtonIsDispalyedInItem(dataHelper._indexOfFirstButton);
     let itemTitleOnHomePageAfter: string = await homePage.getTitleOfSearchedItem(dataHelper._indexOfFirstButton);
     expect(itemTitleOnHomePageAfter).toEqual(itemTitleOnHomePageBefore);
   });

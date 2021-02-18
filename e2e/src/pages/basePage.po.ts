@@ -80,21 +80,13 @@ export class BasePage {
   }
 
   public async buttonIsDisplayedInResultItem(elements: ElementArrayFinder, index: number, button: ElementFinder): Promise<void> {
-    let element: ElementFinder = await elements.get[index].element(button);
+    let element: ElementFinder = await elements.get(index).element(button);
     browserHelper.waitElementIsVisible(element);
   }
 
   public async buttonIsNotDisplayedInResultItem(elements: ElementArrayFinder, index: number, button: ElementFinder): Promise<void> {
-    let element: ElementFinder = await elements.get[index].element(button);
+    let element: ElementFinder = await elements.get(index).element(button);
     browserHelper.waitElementIsNotVisible(element);
   }
 
-
-  // navigateTo(): Promise<unknown> {
-  //   return browser.get(browser.baseUrl) as Promise<unknown>;
-  // }
-
-  // getTitleText(): Promise<string> {
-  //   return element(by.css('app-root .content span')).getText() as Promise<string>;
-  // }
 }

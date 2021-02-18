@@ -18,7 +18,9 @@ export class HomePage extends BasePage {
   public _listOfLanguages: ElementFinder;
   public _desiredLanguage: ElementFinder;
   public _addToFavoritesButton: ElementFinder;
+  public _addToFavoritesButtons: ElementArrayFinder;
   public _removeFromFavoritesButton: ElementFinder;
+  public _removeFromFavoritesButtons: ElementArrayFinder;
   public _results: ElementArrayFinder;
   public _resultTitles: ElementArrayFinder;
   public _resultLanguages: ElementArrayFinder;
@@ -32,7 +34,9 @@ export class HomePage extends BasePage {
     this._listOfLanguages = element(by.xpath('//div[@id="mat-select-0-panel"]'));
     this._desiredLanguage = element(by.xpath(`//mat-option//span[text()="${dataHelper._desiredLanguage}"]`));
     this._addToFavoritesButton = element(by.xpath('//app-favorite-btn[@ng-reflect-is-favorite = "false"]'));
+    this._addToFavoritesButtons = element.all(by.xpath('//app-favorite-btn[@ng-reflect-is-favorite = "false"]'));
     this._removeFromFavoritesButton = element(by.xpath('//app-favorite-btn[@ng-reflect-is-favorite = "true"]'));
+    this._removeFromFavoritesButtons = element.all(by.xpath('//app-favorite-btn[@ng-reflect-is-favorite = "true"]'));
     this._results = element.all(by.xpath('//mat-card[contains(@class,"repo-list__item")]'));
     this._resultTitles = element.all(by.xpath('//mat-card[contains(@class,"repo-list__item")]//span[@class="repo-list__name"]'))
     this._resultLanguages = element.all(by.xpath('//table[@class="repo-list__table"]//tr[1]//td'));
@@ -83,29 +87,29 @@ export class HomePage extends BasePage {
   };
 
   public async getTitleOfSearchedItem(index: number): Promise<string> {
-    let item = await this._resultTitles.get[index];
+    let item = await this._resultTitles.get(index);
     let title = await this.getText(item);
     return title;
   };
 
   public async clickAddToFavoritesButtonOfItem(index: number) : Promise<void> {
-    let element = await this._results.get[index].element(this._addToFavoritesButton);
-    await this.click(element);
+    let button: ElementFinder = await this._addToFavoritesButtons.get(index);
+    await this.click(button);
   };
 
-  public async addToFavoritesButtonIsDispalyed(index: number): Promise<void> {
+  public async addToFavoritesButtonIsDispalyedInItem(index: number): Promise<void> {
     await this.buttonIsDisplayedInResultItem(this._results, index, this._addToFavoritesButton);
   };
 
-  public async addToFavoritesButtonIsNotDispalyed(index: number): Promise<void> {
+  public async addToFavoritesButtonIsNotDispalyedInItem(index: number): Promise<void> {
     await this.buttonIsNotDisplayedInResultItem(this._results, index, this._addToFavoritesButton);
   };
 
-  public async removeFromFavoritesButtonIsDispalyed(index: number): Promise<void> {
+  public async removeFromFavoritesButtonIsDispalyedInItem(index: number): Promise<void> {
     await this.buttonIsDisplayedInResultItem(this._results, index, this._removeFromFavoritesButton);
   };
 
-  public async removeFromFavoritesButtonIsNotDispalyed(index: number): Promise<void> {
+  public async removeFromFavoritesButtonIsNotDispalyedInItem(index: number): Promise<void> {
     await this.buttonIsNotDisplayedInResultItem(this._results, index, this._removeFromFavoritesButton);
   };
 }
