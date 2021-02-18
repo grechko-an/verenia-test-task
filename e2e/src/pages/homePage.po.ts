@@ -35,7 +35,7 @@ export class HomePage extends BasePage {
     this._removeFromFavoritesButton = element(by.xpath('//app-favorite-btn[@ng-reflect-is-favorite = "true"]'));
     this._results = element.all(by.xpath('//mat-card[contains(@class,"repo-list__item")]'));
     this._resultTitles = element.all(by.xpath('//mat-card[contains(@class,"repo-list__item")]//span[@class="repo-list__name"]'))
-    this._resultLanguages = element.all(by.xpath('//table[@class="repo-list__table"]//tr[1]'));
+    this._resultLanguages = element.all(by.xpath('//table[@class="repo-list__table"]//tr[1]//td'));
   };
 
   public async navigateToPage(): Promise<void> {
@@ -52,19 +52,23 @@ export class HomePage extends BasePage {
 
   public async selectDesiredLanguage(): Promise<void> {
     await this.selectItemInDropDownList(this._languageSelect, this._listOfLanguages, this._desiredLanguage);
-  }
+  };
 
   public async resultsAreDisplayed(): Promise<void> {
     await this.elementsAreDisplayed(this._results);
-  }
+  };
 
   public async resultsAreNotDisplayed(): Promise<void> {
     await this.elementsAreNotDisplayed(this._results);
-  }
+  };
 
-  public async getResultsText(): Promise<string> {
+  public async getResultsTtitleText(): Promise<string> {
      return this._resultTitles.getText();
-  }
+  };
+
+  public async getResultsLanguageText(): Promise<string> {
+    return this._resultLanguages.getText();
+  };
 
   public async ctaTextIsVisible(): Promise<void> {
     await this.elementIsVisible(this._ctaText)
@@ -78,4 +82,30 @@ export class HomePage extends BasePage {
     await this.clearInput(this._searchByQueryInput);
   };
 
+  public async getTitleOfSearchedItem(index: number): Promise<string> {
+    let item = await this._resultTitles.get[index];
+    let title = await this.getText(item);
+    return title;
+  };
+
+  public async clickAddToFavoritesButtonOfItem(index: number) : Promise<void> {
+    let element = await this._results.get[index].element(this._addToFavoritesButton);
+    await this.click(element);
+  };
+
+  public async addToFavoritesButtonIsDispalyed(index: number): Promise<void> {
+    await this.buttonIsDisplayedInResultItem(this._results, index, this._addToFavoritesButton);
+  };
+
+  public async addToFavoritesButtonIsNotDispalyed(index: number): Promise<void> {
+    await this.buttonIsNotDisplayedInResultItem(this._results, index, this._addToFavoritesButton);
+  };
+
+  public async removeFromFavoritesButtonIsDispalyed(index: number): Promise<void> {
+    await this.buttonIsDisplayedInResultItem(this._results, index, this._removeFromFavoritesButton);
+  };
+
+  public async removeFromFavoritesButtonIsNotDispalyed(index: number): Promise<void> {
+    await this.buttonIsNotDisplayedInResultItem(this._results, index, this._removeFromFavoritesButton);
+  };
 }
